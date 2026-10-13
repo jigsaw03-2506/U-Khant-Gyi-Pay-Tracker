@@ -24,7 +24,7 @@ const initialFilters: TransferFiltersValue = {
 interface TransferHistoryPanelProps {
   transactions: Transaction[]
   onEdit: (transaction: Transaction) => void
-  onDelete: (id: string) => void
+  onDelete: (id: string) => Promise<void> | void
   showProviderFilter?: boolean
   compactHeading?: boolean
 }
@@ -62,10 +62,10 @@ export function TransferHistoryPanel({
     setPage(1)
   }
 
-  function confirmDelete() {
+  async function confirmDelete() {
     if (!deleting) return
     try {
-      onDelete(deleting.id)
+      await onDelete(deleting.id)
       setDeleting(null)
       toast.success('Transaction deleted.')
     } catch (error) {

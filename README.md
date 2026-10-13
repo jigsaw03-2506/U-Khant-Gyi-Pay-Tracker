@@ -4,8 +4,11 @@ A responsive shop-management app for recording Myanmar money transfers. It suppo
 
 ## Run locally
 
+First connect Firebase — see **[FIREBASE_SETUP_MM.md](FIREBASE_SETUP_MM.md)** (Burmese step-by-step guide).
+
 ```sh
 npm install
+cp .env.example .env.local   # then fill in your Firebase web app keys
 npm run dev
 ```
 
@@ -17,11 +20,13 @@ For a production build, run `npm run build`.
 - `src/features/dashboard/` contains the daily transaction summary components.
 - `src/components/layout/` contains the app header and footer.
 - `src/components/shared/` contains reusable form controls.
-- `src/App.tsx` sets up the app-level notification region and renders the transfer page.
+- `src/lib/firebase.ts` initializes Firebase (Auth + Firestore with offline cache) from `VITE_FIREBASE_*` env vars.
+- `src/features/auth/` contains the email/password login screen.
+- `src/App.tsx` gates the app behind login, sets up notifications and renders the transfer page.
 
 ## Data and calculations
 
-Transactions are stored in this browser's localStorage; no server or database is used. Clearing browser storage removes the saved records.
+Transactions are stored in Firebase Cloud Firestore, collection `transfers`, one document per transaction (document ID = transaction `id`). Saving a new transaction inserts one document; editing updates that document; deleting removes it. The UI subscribes with `onSnapshot`, so data survives closing the tab and syncs across devices. Access is limited to signed-in users by `firestore.rules`. Records left in the old localStorage key are uploaded once on first sign-in.
 
 - Deposit records store the electronic transfer under `amount` and the actual cash paid under `cashPaid`.
 - Withdraw records store the electronic transfer under `amount` and the actual cash collected under `cashReceived`.

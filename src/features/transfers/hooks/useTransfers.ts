@@ -1,25 +1,51 @@
-import { useState } from 'react'
-import { loadTransfers, saveTransfers } from '../services/transferStorage'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import {
+  deleteTransferRow,
+  migrateLegacyLocalTransfers,
+  saveTransferRow,
+  subscribeToTransfers,
+} from '../services/transferStorage'
 import type { Transaction } from '../types/transfer.types'
 
 export function useTransfers() {
-  const [transfers, setTransfers] = useState<Transaction[]>(loadTransfers)
+  const [transfers, setTransfers] = useState<Transaction[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string>()
 
-  function saveTransfer(transaction: Transaction): void {
-    const exists = transfers.some((item) => item.id === transaction.id)
-    const nextTransfers = exists
-      ? transfers.map((item) => (item.id === transaction.id ? transaction : item))
-      : [transaction, ...transfers]
+  useEffect(() => {
+    const unsubscribe = subscribeToTransfers(
+      (rows) => {
+        setTransfers(rows)
+        setLoading(false)
+        setError(undefined)
+      },
+      (subscribeError) => {
+        console.error('Unable to load transfers from Firebase.', subscribeError)
+        setError(subscribeError.message)
+        setLoading(false)
+      },
+    )
 
-    saveTransfers(nextTransfers)
-    setTransfers(nextTransfers)
+    migrateLegacyLocalTransfers()
+      .then((count) => {
+        if (count > 0) toast.success(`Moved ${count} saved transfers from this browser to Firebase.`)
+      })
+      .catch((migrationError) => {
+        console.error('Unable to move local transfers to Firebase.', migrationError)
+      })
+
+    return unsubscribe
+  }, [])
+
+  // The Firestore listener updates `transfers` automatically after each write.
+  async function saveTransfer(transaction: Transaction): Promise<void> {
+    await saveTransferRow(transaction)
   }
 
-  function deleteTransfer(id: string): void {
-    const nextTransfers = transfers.filter((item) => item.id !== id)
-    saveTransfers(nextTransfers)
-    setTransfers(nextTransfers)
+  async function deleteTransfer(id: string): Promise<void> {
+    await deleteTransferRow(id)
   }
 
-  return { transfers, saveTransfer, deleteTransfer }
+  return { transfers, loading, error, saveTransfer, deleteTransfer }
 }

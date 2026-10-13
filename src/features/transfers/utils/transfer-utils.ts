@@ -1,6 +1,7 @@
 import {
   transferProviders,
   type Transaction,
+  type TransactionType,
   type TransferFiltersValue,
   type TransferFormErrors,
   type TransferFormValues,
@@ -56,6 +57,18 @@ export function createTransferFormValues(transaction: Transaction): TransferForm
     referenceNumber: transaction.referenceNumber ?? '',
     notes: transaction.notes ?? '',
   }
+}
+
+export function calculateAutomaticServiceFee(
+  transactionType: TransactionType,
+  amount: number,
+): number {
+  if (!Number.isFinite(amount) || amount <= 0) return 0
+
+  const bracket = Math.ceil(amount / 100_000)
+  const feePerBracket = transactionType === 'deposit' ? 200 : 500
+
+  return bracket * feePerBracket
 }
 
 export function validateTransferForm(values: TransferFormValues): TransferFormErrors {

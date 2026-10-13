@@ -1,5 +1,7 @@
-import { ArrowLeftRight, ChevronLeft, ChevronRight, Search } from 'lucide-react'
+import { ArrowLeftRight, ChevronDown, ChevronLeft, ChevronRight, Search } from 'lucide-react'
+import { useState } from 'react'
 import type { Transaction } from '../types/transfer.types'
+import { formatMMK } from '../utils/transfer-utils'
 import { TransferTableRow } from './TransferTableRow'
 
 interface TransferTableProps {
@@ -25,6 +27,16 @@ export function TransferTable({
   onDelete,
   onClearFilters,
 }: TransferTableProps) {
+  const [expandedIds, setExpandedIds] = useState<string[]>([])
+
+  function toggleExpanded(id: string) {
+    setExpandedIds((current) =>
+      current.includes(id)
+        ? current.filter((transactionId) => transactionId !== id)
+        : [...current, id],
+    )
+  }
+
   if (transactions.length === 0) {
     const hasSavedTransfers = totalCount > 0
 
@@ -54,33 +66,115 @@ export function TransferTable({
 
   return (
     <>
-      <div className="-mx-4 overflow-x-auto sm:-mx-6">
-        <table className="w-full min-w-[900px] border-collapse text-left">
-          <thead className="bg-slate-50">
-            <tr>
-              <th className="px-3 py-3 text-xs font-semibold text-slate-600">Date & time</th>
-              <th className="px-3 py-3 text-xs font-semibold text-slate-600">Type</th>
-              <th className="px-3 py-3 text-xs font-semibold text-slate-600">Provider</th>
-              <th className="px-3 py-3 text-xs font-semibold text-slate-600">Customer</th>
-              <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
-              <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Fee</th>
-              <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Cash received</th>
-              <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Cash paid</th>
-              <th className="px-3 py-3"><span className="sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction) => (
-              <TransferTableRow
-                key={transaction.id}
-                transaction={transaction}
-                onView={() => onView(transaction)}
-                onEdit={() => onEdit(transaction)}
-                onDelete={() => onDelete(transaction)}
-              />
-            ))}
-          </tbody>
-        </table>
+      <div className="space-y-3 xl:hidden">
+        {transactions.map((transaction) => {
+          const isDeposit = transaction.transactionType === 'deposit'
+          const isExpanded = expandedIds.includes(transaction.id)
+
+          return (
+            <div key={transaction.id} className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50/40">
+              <div className="flex w-full items-center gap-3 p-3 text-left">
+                <span className={`inline-flex w-20 shrink-0 items-center justify-center gap-2 rounded-full px-2 py-1 text-[10px] font-semibold ${isDeposit ? 'bg-emerald-100 text-emerald-900' : 'bg-sky-100 text-sky-900'}`}>
+                  <span className={`size-1.5 rounded-full ${isDeposit ? 'bg-emerald-700' : 'bg-sky-700'}`} />
+                  {isDeposit ? 'Deposit' : 'Withdraw'}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-slate-800">{transaction.customerName}</p>
+                  <p className="mt-0.5 text-xs text-slate-500">{formatMMK(transaction.amount)}</p>
+                </div>
+
+                <button
+                  type="button"
+                  className="grid place-items-center rounded-lg p-1 text-slate-500 hover:bg-slate-200/70"
+                  aria-expanded={isExpanded}
+                  aria-label={isExpanded ? 'Collapse transaction details' : 'Expand transaction details'}
+                  aria-controls={`mobile-transaction-details-${transaction.id}`}
+                  onClick={() => toggleExpanded(transaction.id)}
+                >
+                  <ChevronDown
+                    size={18}
+                    className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                  />
+                </button>
+              </div>
+
+              <div
+                id={`mobile-transaction-details-${transaction.id}`}
+                className={`grid transition-all duration-200 ease-out ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+              >
+                <div className="overflow-hidden">
+                  <div className="border-t border-slate-200 bg-white px-3 py-3">
+                    <dl className="space-y-2 text-sm">
+                      <MobileDetail label="Date & time" value={new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(transaction.dateTime))} />
+                      <MobileDetail label="Provider" value={transaction.provider} />
+                      <MobileDetail label="Phone" value={transaction.phoneNumber || '—'} />
+                      <MobileDetail label="Reference" value={transaction.referenceNumber || '—'} />
+                      <MobileDetail label="Service fee" value={formatMMK(transaction.serviceFee)} />
+                      <MobileDetail label={isDeposit ? 'Cash paid' : 'Cash received'} value={formatMMK(isDeposit ? transaction.cashPaid : transaction.cashReceived)} />
+                      {transaction.notes && <MobileDetail label="Note" value={transaction.notes} />}
+                    </dl>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        className="inline-flex min-h-9 flex-1 items-center justify-center rounded-lg border border-slate-300 px-3 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                        onClick={() => onView(transaction)}
+                      >
+                        View
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex min-h-9 flex-1 items-center justify-center rounded-lg border border-slate-300 px-3 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                        onClick={() => onEdit(transaction)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex min-h-9 flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 px-3 text-xs font-medium text-rose-700 hover:bg-rose-100"
+                        onClick={() => onDelete(transaction)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      <div className="hidden xl:block">
+        <div className="-mx-4 overflow-x-auto sm:-mx-6">
+          <table className="w-full min-w-[900px] border-collapse text-left">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="px-3 py-3 text-xs font-semibold text-slate-600">Date & time</th>
+                <th className="px-3 py-3 text-xs font-semibold text-slate-600">Type</th>
+                <th className="px-3 py-3 text-xs font-semibold text-slate-600">Provider</th>
+                <th className="px-3 py-3 text-xs font-semibold text-slate-600">Customer</th>
+                <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Amount</th>
+                <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Fee</th>
+                <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Cash received</th>
+                <th className="px-3 py-3 text-right text-xs font-semibold text-slate-600">Cash paid</th>
+                <th className="px-3 py-3"><span className="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((transaction) => (
+                <TransferTableRow
+                  key={transaction.id}
+                  transaction={transaction}
+                  onView={() => onView(transaction)}
+                  onEdit={() => onEdit(transaction)}
+                  onDelete={() => onDelete(transaction)}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="flex min-h-14 flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3 text-xs text-slate-600">
         <span>
@@ -107,5 +201,14 @@ export function TransferTable({
         </div>
       </div>
     </>
+  )
+}
+
+function MobileDetail({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-3">
+      <dt className="min-w-[82px] text-xs text-slate-500">{label}</dt>
+      <dd className="min-w-0 flex-1 break-words text-right text-slate-700">{value}</dd>
+    </div>
   )
 }

@@ -41,8 +41,8 @@ export function TransferTableRow({
       </td>
       <td className="whitespace-nowrap px-3 py-3 text-sm text-slate-600">{transaction.provider}</td>
       <td className="px-3 py-3">
-        <span className="block whitespace-nowrap text-sm font-medium text-slate-800">{transaction.customerName}</span>
-        {transaction.phoneNumber && <span className="mt-1 block text-xs text-slate-500">{transaction.phoneNumber}</span>}
+        <span className="block break-words text-sm font-medium text-slate-800">{transaction.customerName}</span>
+        {transaction.phoneNumber && <span className="mt-1 block break-words text-xs text-slate-500">{transaction.phoneNumber}</span>}
       </td>
       <td className="whitespace-nowrap px-3 py-3 text-right text-sm font-semibold text-slate-800">{formatMMK(transaction.amount)}</td>
       <td className="whitespace-nowrap px-3 py-3 text-right text-sm text-slate-600">{formatMMK(transaction.serviceFee)}</td>
