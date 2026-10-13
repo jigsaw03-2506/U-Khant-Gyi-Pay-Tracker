@@ -65,7 +65,7 @@ export function TransferSummary({
         </label>
       </section>
 
-      <section className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Daily transaction summary">
+      <section className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4" aria-label="Daily transaction summary">
         <SummaryCard title="Deposit amount" amount={totals.depositAmount} note="Electronic money received" icon={<ArrowDownToLine size={19} />} tone="green" context={summaryContext} />
         <SummaryCard title="Withdraw amount" amount={totals.withdrawAmount} note="Electronic money sent" icon={<Send size={18} />} tone="blue" context={summaryContext} />
         <SummaryCard title="Service fees earned" amount={totals.serviceFees} note="Recorded fees · separate from movements" icon={<Coins size={19} />} tone="amber" context={summaryContext} />
@@ -93,7 +93,7 @@ export function TransferSummary({
           </div>
           <span className="flex items-center gap-2 text-xs font-medium text-slate-600"><CalendarDays size={15} />{dateLabel}</span>
         </div>
-        <div className="grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 items-stretch gap-3 md:grid-cols-2 lg:grid-cols-4">
           <MovementItem title="Physical cash received" amount={totals.cashReceived} description="Cash collected from customers" positive icon={<ArrowDownLeft size={18} />} />
           <MovementItem title="Physical cash paid" amount={totals.cashPaid} description="Cash handed to customers" positive={false} icon={<ArrowUpRight size={18} />} />
           <MovementItem title="Net physical cash" amount={totals.netCash} description="Cash received − cash paid" positive={totals.netCash >= 0} icon={<Banknote size={18} />} />
@@ -131,7 +131,7 @@ function MovementItem({
         <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${positive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>{icon}</span>
         <span className="text-sm font-semibold leading-5 text-slate-700">{title}</span>
       </div>
-      <div className={`mt-auto break-words text-lg font-bold leading-6 tracking-tight ${amountTone}`}>
+      <div className={`mt-auto wrap-break-word text-lg font-bold leading-6 tracking-tight ${amountTone}`}>
         {amount > 0 ? '+' : ''}{formatMMK(amount)}
       </div>
       <span className="text-xs leading-5 text-slate-600">{description}</span>

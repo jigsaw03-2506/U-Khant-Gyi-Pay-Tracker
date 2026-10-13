@@ -24,10 +24,10 @@ export function getLocalDateKey(dateTime: string): string {
   return new Date(date.getTime() - offset * 60_000).toISOString().slice(0, 10)
 }
 
-export function createEmptyTransferForm(): TransferFormValues {
+export function createEmptyTransferForm(provider = ''): TransferFormValues {
   return {
     transactionType: 'deposit',
-    provider: '',
+    provider,
     dateTime: toLocalDateTimeInput(),
     customerName: '',
     phoneNumber: '',

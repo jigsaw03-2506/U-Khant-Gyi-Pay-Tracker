@@ -11,12 +11,14 @@ interface TransferFiltersProps {
   filters: TransferFiltersValue
   onChange: (filters: TransferFiltersValue) => void
   onClear: () => void
+  showProviderFilter?: boolean
 }
 
 export function TransferFilters({
   filters,
   onChange,
   onClear,
+  showProviderFilter = true,
 }: TransferFiltersProps) {
   const hasActiveFilters =
     filters.search ||
@@ -63,21 +65,30 @@ export function TransferFilters({
         </select>
         <ChevronDown size={14} className="shrink-0" />
       </label>
-      <label className="flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 text-slate-500">
-        <select
-          className="max-w-32 appearance-none border-0 bg-transparent text-sm text-slate-700 outline-none"
-          value={filters.provider}
-          onChange={(event) => updateFilter('provider', event.target.value)}
-          aria-label="Filter by provider"
-        >
-          <option value="all">All providers</option>
-          {transferProviders.map((provider) => <option key={provider}>{provider}</option>)}
-        </select>
-        <ChevronDown size={14} className="shrink-0" />
-      </label>
+      {showProviderFilter && (
+        <label className="flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 text-slate-500">
+          <select
+            className="max-w-32 appearance-none border-0 bg-transparent text-sm text-slate-700 outline-none"
+            value={filters.provider}
+            onChange={(event) => updateFilter('provider', event.target.value)}
+            aria-label="Filter by provider"
+          >
+            <option value="all">All providers</option>
+            {transferProviders.map((provider) => <option key={provider}>{provider}</option>)}
+          </select>
+          <ChevronDown size={14} className="shrink-0" />
+        </label>
+      )}
       <label className="flex h-10 flex-1 items-center gap-2 rounded-lg border border-slate-200 px-2 text-slate-500 sm:flex-none sm:px-3">
         <CalendarDays size={15} className="shrink-0" />
-      
+        <input
+          className="w-full min-w-0 border-0 bg-transparent text-xs text-slate-700 outline-none sm:w-28"
+          aria-label="Filter from date"
+          type="date"
+          value={filters.dateFrom}
+          onChange={(event) => updateFilter('dateFrom', event.target.value)}
+        />
+        <span className="text-slate-400">–</span>
         <input
           className="w-full min-w-0 border-0 bg-transparent text-xs text-slate-700 outline-none sm:w-28"
           aria-label="Filter to date"

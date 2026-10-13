@@ -28,19 +28,21 @@ import {
 
 interface TransferFormProps {
   editingTransaction?: Transaction
+  defaultProvider?: string
   onSave: (transaction: Transaction) => void
   onCancelEdit: () => void
 }
 
 export function TransferForm({
   editingTransaction,
+  defaultProvider,
   onSave,
   onCancelEdit,
 }: TransferFormProps) {
   const [values, setValues] = useState(() =>
     editingTransaction
       ? createTransferFormValues(editingTransaction)
-      : createEmptyTransferForm(),
+      : createEmptyTransferForm(defaultProvider),
   )
   const [errors, setErrors] = useState<TransferFormErrors>({})
   const [saving, setSaving] = useState(false)
@@ -77,7 +79,7 @@ export function TransferForm({
     setSaving(true)
     try {
       onSave(buildTransaction(values, editingTransaction))
-      setValues(createEmptyTransferForm())
+      setValues(createEmptyTransferForm(defaultProvider))
       setErrors({})
     } catch (error) {
       console.error('Unable to save transaction.', error)
