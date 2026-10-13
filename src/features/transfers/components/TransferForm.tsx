@@ -45,9 +45,6 @@ export function TransferForm({
       ? createTransferFormValues(editingTransaction)
       : createEmptyTransferForm(defaultProvider),
   );
-  const [serviceFeeMode, setServiceFeeMode] = useState<"auto" | "manual">(() =>
-    editingTransaction ? "manual" : "auto",
-  );
   const [errors, setErrors] = useState<TransferFormErrors>({});
   const [saving, setSaving] = useState(false);
 
@@ -83,14 +80,6 @@ export function TransferForm({
       };
     });
 
-    if (key === "serviceFee") {
-      setServiceFeeMode("manual");
-    }
-
-    if (key === "amount") {
-      setServiceFeeMode("auto");
-    }
-
     setErrors((current) => ({ ...current, [key]: undefined }));
   }
 
@@ -104,7 +93,6 @@ export function TransferForm({
       cashReceived: "",
       cashPaid: "",
     }));
-    setServiceFeeMode("auto");
     setErrors({});
   }
 
@@ -123,7 +111,6 @@ export function TransferForm({
     try {
       await onSave(buildTransaction(values, editingTransaction));
       setValues(createEmptyTransferForm(defaultProvider));
-      setServiceFeeMode("auto");
       setErrors({});
     } catch (error) {
       console.error("Unable to save transaction.", error);
@@ -340,7 +327,7 @@ export function TransferForm({
                 label="Actual physical cash paid (MMK)"
                 required
                 error={errors.cashAmount}
-                hint="Cash handed to the customer — enter the actual amount"
+                hint=""
               >
                 <MoneyInput
                   value={values.cashPaid}
@@ -352,7 +339,7 @@ export function TransferForm({
                 label="Actual physical cash received (MMK)"
                 required
                 error={errors.cashAmount}
-                hint="Cash collected from the customer — enter the actual amount"
+                hint=""
               >
                 <MoneyInput
                   value={values.cashReceived}
