@@ -30,6 +30,8 @@ import {
 interface TransferFormProps {
   editingTransaction?: Transaction;
   defaultProvider?: string;
+  /** Employees get the automatic fee only; the field is read-only for them. */
+  canEditServiceFee: boolean;
   onSave: (transaction: Transaction) => Promise<void> | void;
   onCancelEdit: () => void;
 }
@@ -37,6 +39,7 @@ interface TransferFormProps {
 export function TransferForm({
   editingTransaction,
   defaultProvider,
+  canEditServiceFee,
   onSave,
   onCancelEdit,
 }: TransferFormProps) {
@@ -316,9 +319,14 @@ export function TransferForm({
                 onChange={(value) => updateField("amount", value)}
               />
             </FormField>
-            <FormField label="Service fee (MMK)" error={errors.serviceFee}>
+            <FormField
+              label="Service fee (MMK)"
+              error={errors.serviceFee}
+              hint={canEditServiceFee ? undefined : "Calculated automatically"}
+            >
               <MoneyInput
                 value={values.serviceFee}
+                readOnly={!canEditServiceFee}
                 onChange={(value) => updateField("serviceFee", value)}
               />
             </FormField>

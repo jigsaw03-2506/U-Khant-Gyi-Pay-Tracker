@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Toaster, toast } from 'sonner'
-import { LogOut } from 'lucide-react'
 import { AppHeader, type AppScreen } from './components/layout/AppHeader'
 import { DashboardPage } from './features/dashboard/DashboardPage'
 import { TransferPage } from './features/transfers/TransferPage'
@@ -8,9 +7,12 @@ import { useTransfers } from './features/transfers/hooks/useTransfers'
 import type { Transaction } from './features/transfers/types/transfer.types'
 import { LoginPage } from './features/auth/LoginPage'
 import { useAuth } from './features/auth/useAuth'
+import { isAdminEmail } from './features/auth/roles'
 
 function ShopApp({ email, onLogout }: { email: string; onLogout: () => void }) {
-  const { transfers, loading, error, saveTransfer, deleteTransfer } = useTransfers()
+  const isAdmin = isAdminEmail(email)
+  // Employees never load the transfer list; Firestore rules block it anyway.
+  const { transfers, loading, error, saveTransfer, deleteTransfer } = useTransfers(isAdmin)
   const [activeScreen, setActiveScreen] = useState<AppScreen>('transfer')
   const [editingTransaction, setEditingTransaction] = useState<Transaction>()
 
@@ -31,22 +33,22 @@ function ShopApp({ email, onLogout }: { email: string; onLogout: () => void }) {
 
   return (
     <>
-      <AppHeader activeScreen={activeScreen} onNavigate={(screen) => {
-        if (screen === 'dashboard') setEditingTransaction(undefined)
-        setActiveScreen(screen)
-      }} />
+      <AppHeader
+        activeScreen={activeScreen}
+        email={email}
+        isAdmin={isAdmin}
+        onLogout={onLogout}
+        onNavigate={(screen) => {
+          if (screen === 'dashboard') setEditingTransaction(undefined)
+          setActiveScreen(screen)
+        }}
+      />
 
-      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-end gap-3 px-4 pt-3 text-xs text-slate-500 sm:px-6 lg:px-8">
-        {loading && <span>Firebase မှ data ဆွဲယူနေသည်…</span>}
-        <span className="truncate">{email}</span>
-        <button
-          type="button"
-          onClick={onLogout}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 font-semibold text-slate-600 hover:bg-slate-100"
-        >
-          <LogOut size={14} /> Logout
-        </button>
-      </div>
+      {loading && (
+        <div className="mx-auto max-w-[1600px] px-4 pt-3 text-right text-xs text-slate-500 sm:px-6 lg:px-8">
+          Firebase မှ data ဆွဲယူနေသည်…
+        </div>
+      )}
 
       {error && (
         <div className="mx-auto mt-3 max-w-[1600px] px-4 sm:px-6 lg:px-8">
@@ -56,8 +58,9 @@ function ShopApp({ email, onLogout }: { email: string; onLogout: () => void }) {
         </div>
       )}
 
-      {activeScreen === 'transfer' ? (
+      {activeScreen === 'transfer' || !isAdmin ? (
         <TransferPage
+          isAdmin={isAdmin}
           transactions={transfers}
           editingTransaction={editingTransaction}
           onSave={handleSave}

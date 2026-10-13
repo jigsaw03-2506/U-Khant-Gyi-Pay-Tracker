@@ -8,12 +8,14 @@ import {
 } from '../services/transferStorage'
 import type { Transaction } from '../types/transfer.types'
 
-export function useTransfers() {
+export function useTransfers(canReadTransfers: boolean) {
   const [transfers, setTransfers] = useState<Transaction[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(canReadTransfers)
   const [error, setError] = useState<string>()
 
   useEffect(() => {
+    if (!canReadTransfers) return
+
     const unsubscribe = subscribeToTransfers(
       (rows) => {
         setTransfers(rows)
@@ -36,7 +38,7 @@ export function useTransfers() {
       })
 
     return unsubscribe
-  }, [])
+  }, [canReadTransfers])
 
   // The Firestore listener updates `transfers` automatically after each write.
   async function saveTransfer(transaction: Transaction): Promise<void> {

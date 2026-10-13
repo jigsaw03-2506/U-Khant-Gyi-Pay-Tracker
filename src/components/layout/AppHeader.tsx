@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import {
   ArrowLeftRight,
   LayoutDashboard,
-  Settings,
   WalletCards,
 } from "lucide-react";
+import { AccountMenu } from "./AccountMenu";
 
 export type AppScreen = "transfer" | "dashboard";
 
 interface AppHeaderProps {
   activeScreen: AppScreen;
+  email: string;
+  isAdmin: boolean;
   onNavigate: (screen: AppScreen) => void;
+  onLogout: () => void;
 }
 
 function getClockLabel() {
@@ -28,7 +31,13 @@ function getClockLabel() {
   };
 }
 
-export function AppHeader({ activeScreen, onNavigate }: AppHeaderProps) {
+export function AppHeader({
+  activeScreen,
+  email,
+  isAdmin,
+  onNavigate,
+  onLogout,
+}: AppHeaderProps) {
   const [clock, setClock] = useState(getClockLabel);
 
   useEffect(() => {
@@ -40,6 +49,9 @@ export function AppHeader({ activeScreen, onNavigate }: AppHeaderProps) {
     { id: "transfer", label: "Transfer", icon: ArrowLeftRight },
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   ] as const;
+  const visibleNavItems = isAdmin
+    ? navItems
+    : navItems.filter((item) => item.id !== "dashboard");
 
   return (
     <header className="bg-[#14234a] text-white shadow-md">
@@ -59,7 +71,7 @@ export function AppHeader({ activeScreen, onNavigate }: AppHeaderProps) {
         </div>
 
         <div className="col-span-2 row-start-2 flex w-full justify-center gap-2 sm:col-span-1 sm:col-start-2 sm:row-start-auto sm:w-auto">
-          {navItems.map(({ id, label, icon: Icon }) => {
+          {visibleNavItems.map(({ id, label, icon: Icon }) => {
             const active = activeScreen === id;
             return (
               <button
@@ -81,12 +93,7 @@ export function AppHeader({ activeScreen, onNavigate }: AppHeaderProps) {
         </div>
 
         <div className="col-start-2 row-start-1 ml-auto flex items-center gap-3 sm:col-start-3 sm:row-start-auto">
-          <span
-            className="grid size-9 place-items-center rounded-full border border-blue-300/30 bg-white text-[#14234a]"
-            aria-label="Settings"
-          >
-            <Settings size={17} />
-          </span>
+          <AccountMenu email={email} isAdmin={isAdmin} onLogout={onLogout} />
           <div className="text-right leading-tight">
             <div className="text-sm font-semibold tabular-nums">
               {clock.time}

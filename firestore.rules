@@ -2,12 +2,14 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // One document = one transfer row. Only logged-in shop accounts can use it.
-    match /transfers/{transferId} {
-      allow read, delete: if request.auth != null;
+    // Keep this email the same as ADMIN_EMAIL in src/features/auth/roles.ts.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email.lower() == 'yairhlagit2@gmail.com';
+    }
 
-      allow create, update: if request.auth != null
-        && request.resource.data.id == transferId
+    function isValidTransfer(transferId) {
+      return request.resource.data.id == transferId
         && request.resource.data.transactionType in ['deposit', 'withdraw']
         && request.resource.data.amount is number
         && request.resource.data.amount > 0
@@ -15,6 +17,25 @@ service cloud.firestore {
         && request.resource.data.serviceFee >= 0
         && request.resource.data.customerName is string
         && request.resource.data.dateTime is string;
+    }
+
+    // Same formula as calculateAutomaticServiceFee in transfer-utils.ts.
+    function hasAutomaticServiceFee() {
+      let data = request.resource.data;
+      let brackets = math.ceil(data.amount / 100000.0);
+      return (data.transactionType == 'deposit' && data.serviceFee == brackets * 200)
+        || (data.transactionType == 'withdraw' && data.serviceFee == brackets * 500);
+    }
+
+    // One document = one transfer row.
+    // Admin: everything. Employee: can only add new rows, with the automatic fee.
+    match /transfers/{transferId} {
+      allow read, delete: if isAdmin();
+      allow update: if isAdmin() && isValidTransfer(transferId);
+
+      allow create: if request.auth != null
+        && isValidTransfer(transferId)
+        && (isAdmin() || hasAutomaticServiceFee());
     }
 
     // Everything else is closed.

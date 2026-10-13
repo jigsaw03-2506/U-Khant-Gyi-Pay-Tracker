@@ -8,6 +8,7 @@ import { paymentTypes, type PaymentTypeId } from "./types/payment-types";
 import type { Transaction } from "./types/transfer.types";
 
 interface TransferPageProps {
+  isAdmin: boolean;
   transactions: Transaction[];
   editingTransaction?: Transaction;
   onSave: (transaction: Transaction) => Promise<void> | void;
@@ -17,6 +18,7 @@ interface TransferPageProps {
 }
 
 export function TransferPage({
+  isAdmin,
   transactions,
   editingTransaction,
   onSave,
@@ -66,28 +68,33 @@ export function TransferPage({
                   Record a transfer for your selected payment service.
                 </p>
               </div>
+              {isAdmin && (
               <span className="ml-auto hidden rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 sm:inline-flex">
                 {paymentTransactions.length}{" "}
                 {paymentTransactions.length === 1 ? "transfer" : "transfers"}
               </span>
+              )}
             </div>
 
             <TransferForm
               key={`${editingTransaction?.id ?? "new"}-${paymentType.provider}`}
               editingTransaction={editingTransaction}
               defaultProvider={paymentType.provider}
+              canEditServiceFee={isAdmin}
               onSave={handleSave}
               onCancelEdit={onCancelEdit}
             />
           </div>
 
-          <TransferHistoryPanel
-            transactions={paymentTransactions}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            showProviderFilter={false}
-            compactHeading
-          />
+          {isAdmin && (
+            <TransferHistoryPanel
+              transactions={paymentTransactions}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              showProviderFilter={false}
+              compactHeading
+            />
+          )}
         </section>
       </div>
       <AppFooter />
