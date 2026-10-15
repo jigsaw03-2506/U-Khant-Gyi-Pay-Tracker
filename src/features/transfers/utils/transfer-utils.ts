@@ -66,7 +66,7 @@ export function calculateAutomaticServiceFee(
   if (!Number.isFinite(amount) || amount <= 0) return 0
 
   const bracket = Math.ceil(amount / 100_000)
-  const feePerBracket = transactionType === 'deposit' ? 200 : 500
+  const feePerBracket = transactionType === 'deposit' ? 500 : 200
 
   return bracket * feePerBracket
 }
