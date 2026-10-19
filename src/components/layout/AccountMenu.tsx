@@ -46,7 +46,7 @@ export function AccountMenu({ email, isAdmin, onLogout }: AccountMenuProps) {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-50 mt-2 w-64 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-2 text-slate-800 dark:text-slate-100 shadow-xl"
+          className="absolute right-0 z-50 mt-2 w-64 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 p-2 text-slate-800 dark:text-slate-100 card-shadow"
         >
           <div className="flex items-center gap-3 rounded-lg px-2 py-2">
             <span className="grid size-9 shrink-0 place-items-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-400">

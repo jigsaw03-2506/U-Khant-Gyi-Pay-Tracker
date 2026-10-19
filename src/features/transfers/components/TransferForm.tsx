@@ -129,7 +129,7 @@ export function TransferForm({
 
   return (
     <section
-      className="mt-8 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-5 shadow-sm sm:p-7"
+      className="mt-8 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-5 card-shadow sm:p-7"
       id="transaction-form"
     >
       <div className="flex items-start gap-3">
@@ -172,7 +172,7 @@ export function TransferForm({
             <button
               type="button"
               aria-pressed={isDeposit}
-              className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${isDeposit ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 ring-1 ring-emerald-500" : "border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 hover:border-emerald-300 dark:hover:border-emerald-500/40 hover:bg-emerald-50/40 dark:hover:bg-emerald-500/10"}`}
+              className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left card-shadow transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 [--card-glow:rgba(16,185,129,0.45)] ${isDeposit ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 ring-1 ring-emerald-500" : "border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 hover:border-emerald-300 dark:hover:border-emerald-500/40 hover:bg-emerald-50/40 dark:hover:bg-emerald-500/10"}`}
               onClick={() => changeTransactionType("deposit")}
             >
               <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300">
@@ -196,7 +196,7 @@ export function TransferForm({
             <button
               type="button"
               aria-pressed={!isDeposit}
-              className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 ${!isDeposit ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 ring-1 ring-sky-500" : "border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 hover:border-sky-300 dark:hover:border-sky-500/40 hover:bg-sky-50/40 dark:hover:bg-sky-500/10"}`}
+              className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left card-shadow transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 [--card-glow:rgba(14,165,233,0.45)] ${!isDeposit ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 ring-1 ring-sky-500" : "border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 hover:border-sky-300 dark:hover:border-sky-500/40 hover:bg-sky-50/40 dark:hover:bg-sky-500/10"}`}
               onClick={() => changeTransactionType("withdraw")}
             >
               <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-sky-100 dark:bg-sky-500/15 text-sky-800 dark:text-sky-300">

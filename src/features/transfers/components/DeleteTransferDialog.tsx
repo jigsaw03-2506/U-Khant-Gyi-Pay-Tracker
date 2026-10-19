@@ -16,7 +16,7 @@ export function DeleteTransferDialog({
     <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="fixed inset-0 z-50 bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm" />
-        <AlertDialog.Content className="fixed left-1/2 top-1/2 z-[51] w-[min(390px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-6 shadow-2xl">
+        <AlertDialog.Content className="fixed left-1/2 top-1/2 z-[51] w-[min(390px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 p-6 card-shadow">
           <div className="grid size-11 place-items-center rounded-xl bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300"><Trash2 size={20} /></div>
           <AlertDialog.Title className="mt-4 text-lg font-bold text-slate-900 dark:text-slate-50">
             Delete this transaction?

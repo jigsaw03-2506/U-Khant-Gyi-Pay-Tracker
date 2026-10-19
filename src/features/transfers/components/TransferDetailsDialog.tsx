@@ -20,7 +20,7 @@ export function TransferDetailsDialog({
     <Dialog.Root open={transaction !== null} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-[51] max-h-[90vh] w-[min(470px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-5 shadow-2xl sm:p-6">
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-[51] max-h-[90vh] w-[min(470px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 card-shadow sm:p-6">
           {transaction && (
             <>
               <div className="flex items-start justify-between gap-4">

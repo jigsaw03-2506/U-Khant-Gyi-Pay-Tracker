@@ -52,7 +52,7 @@ export function TransferPage({
         />
 
         <section className="min-w-0 space-y-5">
-          <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-4 shadow-sm sm:p-5">
+          <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-4 card-shadow sm:p-5">
             <div className="mb-5 flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4">
               <span className="grid size-10 place-items-center rounded-xl bg-[#eaf0ff] dark:bg-blue-500/15 text-[#243d83] dark:text-blue-300">
                 <ArrowLeftRight size={19} />

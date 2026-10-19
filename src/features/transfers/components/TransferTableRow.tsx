@@ -65,7 +65,7 @@ export function TransferTableRow({
                 aria-label="Close actions"
                 onClick={() => setMenuOpen(false)}
               />
-              <div className="absolute right-0 top-9 z-20 w-44 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-1 shadow-lg">
+              <div className="absolute right-0 top-9 z-20 w-44 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 p-1 card-shadow">
                 <button className="flex h-10 w-full items-center gap-2 rounded-lg px-3 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5" onClick={() => { setMenuOpen(false); onView() }}>
                   <FileText size={15} />View details
                 </button>

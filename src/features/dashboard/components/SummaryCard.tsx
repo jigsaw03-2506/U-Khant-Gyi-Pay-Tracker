@@ -11,12 +11,12 @@ interface SummaryCardProps {
 }
 
 const cardTones = {
-  green: 'border-emerald-200 from-emerald-50 dark:border-emerald-500/25 dark:from-emerald-500/10 dark:shadow-emerald-500/5',
-  blue: 'border-sky-200 from-sky-50 dark:border-sky-500/25 dark:from-sky-500/10 dark:shadow-sky-500/5',
-  amber: 'border-amber-200 from-amber-50 dark:border-amber-500/30 dark:from-amber-500/10 dark:shadow-amber-500/5',
-  teal: 'border-teal-200 from-teal-50 dark:border-teal-500/25 dark:from-teal-500/10 dark:shadow-teal-500/5',
-  rose: 'border-rose-200 from-rose-50 dark:border-rose-500/25 dark:from-rose-500/10 dark:shadow-rose-500/5',
-  violet: 'border-violet-200 from-violet-50 dark:border-violet-500/25 dark:from-violet-500/10 dark:shadow-violet-500/5',
+  green: 'border-emerald-200 from-emerald-50 dark:border-emerald-500/25 dark:from-emerald-500/10 [--card-glow:rgba(16,185,129,0.45)]',
+  blue: 'border-sky-200 from-sky-50 dark:border-sky-500/25 dark:from-sky-500/10 [--card-glow:rgba(14,165,233,0.45)]',
+  amber: 'border-amber-200 from-amber-50 dark:border-amber-500/30 dark:from-amber-500/10 [--card-glow:rgba(245,158,11,0.45)]',
+  teal: 'border-teal-200 from-teal-50 dark:border-teal-500/25 dark:from-teal-500/10 [--card-glow:rgba(20,184,166,0.45)]',
+  rose: 'border-rose-200 from-rose-50 dark:border-rose-500/25 dark:from-rose-500/10 [--card-glow:rgba(244,63,94,0.45)]',
+  violet: 'border-violet-200 from-violet-50 dark:border-violet-500/25 dark:from-violet-500/10 [--card-glow:rgba(139,92,246,0.45)]',
 }
 
 const iconTones = {
@@ -46,7 +46,7 @@ export function SummaryCard({
   context,
 }: SummaryCardProps) {
   return (
-    <article className={`flex h-full min-w-0 flex-col rounded-2xl border bg-gradient-to-br to-white p-5 shadow-sm dark:to-slate-900/60 dark:shadow-lg ${cardTones[tone]}`}>
+    <article className={`flex h-full min-w-0 flex-col rounded-2xl border bg-gradient-to-br to-white p-5 card-shadow dark:to-slate-900/60 ${cardTones[tone]}`}>
       <div className="flex items-center justify-between">
         <span className={`grid size-10 place-items-center rounded-xl ${iconTones[tone]}`}>{icon}</span>
         <span className="rounded-full bg-white/70 px-2.5 py-1 text-[11px] font-medium text-slate-500 dark:bg-white/5 dark:text-slate-400">{context}</span>

@@ -106,7 +106,7 @@ export function TransferSummary({
           </p>
         </div>
         <div className="flex min-w-0 flex-col gap-2 sm:items-end">
-          <div className="flex w-fit max-w-full flex-wrap gap-1 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-1 shadow-sm" role="group" aria-label="Summary period">
+          <div className="flex w-fit max-w-full flex-wrap gap-1 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-1 card-shadow" role="group" aria-label="Summary period">
             {(Object.keys(PRESET_LABELS) as Exclude<RangePreset, 'custom'>[]).map((preset) => (
               <button
                 key={preset}
@@ -119,7 +119,7 @@ export function TransferSummary({
               </button>
             ))}
           </div>
-          <div className={`flex h-11 w-fit max-w-full items-center gap-2 rounded-xl border bg-white dark:bg-slate-900/70 px-3 text-slate-600 dark:text-slate-400 shadow-sm focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 dark:focus-within:ring-emerald-500/20 ${activePreset === 'custom' ? 'border-blue-500' : 'border-slate-200 dark:border-white/10'}`}>
+          <div className={`flex h-11 w-fit max-w-full items-center gap-2 rounded-xl border bg-white dark:bg-slate-900/70 px-3 text-slate-600 dark:text-slate-400 card-shadow focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 dark:focus-within:ring-emerald-500/20 ${activePreset === 'custom' ? 'border-blue-500' : 'border-slate-200 dark:border-white/10'}`}>
             <CalendarDays size={17} className="shrink-0 text-emerald-800 dark:text-emerald-300" />
             <input
               type="date"
@@ -193,7 +193,7 @@ function MovementItem({
       : 'text-rose-800 dark:text-rose-300'
 
   return (
-    <article className="flex h-full min-h-36 min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-4 shadow-sm">
+    <article className="flex h-full min-h-36 min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-4 card-shadow">
       <div className="flex min-w-0 items-center gap-3">
         <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${positive ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300'}`}>{icon}</span>
         <span className="text-sm font-semibold leading-5 text-slate-700 dark:text-slate-200">{title}</span>

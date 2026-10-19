@@ -44,7 +44,7 @@ export function LoginPage() {
     <div className="grid min-h-screen place-items-center px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-4 rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-6 shadow-xl shadow-slate-900/5"
+        className="w-full max-w-sm space-y-4 rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-6 card-shadow"
       >
         <div className="flex items-center gap-3">
           <span className="grid size-11 place-items-center rounded-xl bg-gradient-to-br from-amber-300 to-amber-500 text-amber-950 dark:text-amber-100 shadow-lg shadow-amber-500/20">

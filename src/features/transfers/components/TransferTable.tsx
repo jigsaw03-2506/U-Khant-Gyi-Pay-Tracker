@@ -72,7 +72,7 @@ export function TransferTable({
           const isExpanded = expandedIds.includes(transaction.id)
 
           return (
-            <div key={transaction.id} className="overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50/40 dark:bg-white/[0.03]">
+            <div key={transaction.id} className="overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50/40 dark:bg-white/[0.03] card-shadow">
               <div className="flex w-full items-center gap-3 p-3 text-left">
                 <span className={`inline-flex w-20 shrink-0 items-center justify-center gap-2 rounded-full px-2 py-1 text-[10px] font-semibold ${isDeposit ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-900 dark:text-emerald-200' : 'bg-sky-100 dark:bg-sky-500/15 text-sky-900 dark:text-sky-200'}`}>
                   <span className={`size-1.5 rounded-full ${isDeposit ? 'bg-emerald-700' : 'bg-sky-700'}`} />

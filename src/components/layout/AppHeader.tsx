@@ -71,7 +71,7 @@ export function AppHeader({
           </div>
         </div>
 
-        <nav className="col-span-2 row-start-2 flex w-full justify-center gap-1 rounded-2xl border border-slate-200 bg-slate-100/80 p-1 sm:col-span-1 sm:col-start-2 sm:row-start-auto sm:w-auto dark:border-white/10 dark:bg-white/5">
+        <nav className="col-span-2 row-start-2 flex w-full justify-center gap-1 rounded-2xl border border-slate-200 bg-slate-100/80 p-1 sm:col-span-1 sm:col-start-2 sm:row-start-auto sm:w-auto dark:border-white/10 dark:bg-white/5 card-shadow">
           {visibleNavItems.map(({ id, label, icon: Icon }) => {
             const active = activeScreen === id;
             return (

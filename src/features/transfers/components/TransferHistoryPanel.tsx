@@ -81,7 +81,7 @@ export function TransferHistoryPanel({
 
   return (
     <>
-      <section className="contain-paint overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 shadow-sm">
+      <section className="contain-paint overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 card-shadow">
         <div className={`flex items-center gap-3 p-4 sm:px-5 ${compactHeading ? 'border-b border-slate-100 dark:border-white/5' : ''}`}>
           <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-800 dark:text-blue-300">
             <FileText size={19} />
