@@ -95,46 +95,46 @@ export function TransferSummary({
     <>
       <section className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between" id="dashboard">
         <div className="min-w-0">
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-widest text-emerald-800">
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-widest text-emerald-800 dark:text-emerald-300">
             <span className="size-2 rounded-full bg-emerald-500" /> YOUR SHOP AT A GLANCE
           </div>
-          <h1 className="mt-2 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl">
+          <h1 className="mt-2 text-3xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
             Good day, shop owner <span className="text-amber-500">✦</span>
           </h1>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
             Here’s how your money transfer business is doing.
           </p>
         </div>
         <div className="flex min-w-0 flex-col gap-2 sm:items-end">
-          <div className="flex w-fit max-w-full flex-wrap gap-1 rounded-lg border border-slate-200 bg-white p-1 shadow-sm" role="group" aria-label="Summary period">
+          <div className="flex w-fit max-w-full flex-wrap gap-1 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-1 shadow-sm" role="group" aria-label="Summary period">
             {(Object.keys(PRESET_LABELS) as Exclude<RangePreset, 'custom'>[]).map((preset) => (
               <button
                 key={preset}
                 type="button"
                 aria-pressed={activePreset === preset}
                 onClick={() => onSummaryRangeChange(getPresetRange(preset))}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${activePreset === preset ? 'bg-emerald-700 text-white' : 'text-slate-600 hover:bg-emerald-50'}`}
+                className={`rounded-xl px-4 py-2 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${activePreset === preset ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10'}`}
               >
                 {PRESET_LABELS[preset]}
               </button>
             ))}
           </div>
-          <div className={`flex h-11 w-fit max-w-full items-center gap-2 rounded-lg border bg-white px-3 text-slate-600 shadow-sm focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 ${activePreset === 'custom' ? 'border-emerald-500' : 'border-slate-200'}`}>
-            <CalendarDays size={17} className="shrink-0 text-emerald-800" />
+          <div className={`flex h-11 w-fit max-w-full items-center gap-2 rounded-xl border bg-white dark:bg-slate-900/70 px-3 text-slate-600 dark:text-slate-400 shadow-sm focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 dark:focus-within:ring-emerald-500/20 ${activePreset === 'custom' ? 'border-blue-500' : 'border-slate-200 dark:border-white/10'}`}>
+            <CalendarDays size={17} className="shrink-0 text-emerald-800 dark:text-emerald-300" />
             <input
               type="date"
               value={summaryRange.from}
               onChange={(event) => changeFrom(event.target.value)}
               aria-label="Summary from date"
-              className="min-w-0 border-0 bg-transparent text-xs text-slate-800 outline-none"
+              className="min-w-0 border-0 bg-transparent text-xs text-slate-800 dark:text-slate-100 outline-none"
             />
-            <span className="shrink-0 text-xs text-slate-500">to</span>
+            <span className="shrink-0 text-xs text-slate-500 dark:text-slate-400">to</span>
             <input
               type="date"
               value={summaryRange.to}
               onChange={(event) => changeTo(event.target.value)}
               aria-label="Summary to date"
-              className="min-w-0 border-0 bg-transparent text-xs text-slate-800 outline-none"
+              className="min-w-0 border-0 bg-transparent text-xs text-slate-800 dark:text-slate-100 outline-none"
             />
           </div>
         </div>
@@ -146,27 +146,19 @@ export function TransferSummary({
         <SummaryCard title="Service fees earned" amount={totals.serviceFees} note="Recorded fees · separate from movements" icon={<Coins size={19} />} tone="amber" context={summaryContext} />
         <SummaryCard title="Physical cash received" amount={totals.cashReceived} note="Cash collected from customers" icon={<ArrowDownLeft size={19} />} tone="teal" context={summaryContext} />
         <SummaryCard title="Physical cash paid" amount={totals.cashPaid} note="Cash handed to customers" icon={<ArrowUpRight size={19} />} tone="rose" context={summaryContext} />
-        <article className="flex h-full min-w-0 flex-col rounded-xl border border-violet-200 bg-violet-50 p-5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="grid size-10 place-items-center rounded-lg bg-violet-100 text-violet-800"><ArrowLeftRight size={18} /></span>
-            <span className="text-xs font-medium text-slate-500">{summaryContext}</span>
-          </div>
-          <div className="mt-4 text-sm font-medium text-slate-600">Transactions</div>
-          <div className="mt-1 text-2xl font-bold tracking-tight text-slate-900">{totals.transactionCount}<small className="ml-1 text-sm font-medium text-slate-600">txns</small></div>
-          <div className="mt-auto pt-2 text-xs leading-5 text-slate-600">Total transactions recorded</div>
-        </article>
+        <SummaryCard title="Transactions" amount={<>{totals.transactionCount}<small className="ml-1 text-sm font-medium text-slate-500 dark:text-slate-400">txns</small></>} note="Total transactions recorded" icon={<ArrowLeftRight size={18} />} tone="violet" context={summaryContext} />
       </section>
 
       <section className="mt-9" aria-labelledby="movement-title">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-center gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-emerald-100 bg-emerald-50 text-emerald-800"><ArrowLeftRight size={18} /></span>
+            <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-emerald-100 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300"><ArrowLeftRight size={18} /></span>
             <div>
-              <h2 id="movement-title" className="text-lg font-bold tracking-tight text-slate-900">Money movements</h2>
-              <p className="mt-1 text-xs leading-5 text-slate-600">Calculated from saved records · not verified account balances</p>
+              <h2 id="movement-title" className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-50">Money movements</h2>
+              <p className="mt-1 text-xs leading-5 text-slate-600 dark:text-slate-400">Calculated from saved records · not verified account balances</p>
             </div>
           </div>
-          <span className="flex items-center gap-2 text-xs font-medium text-slate-600"><CalendarDays size={15} />{dateLabel}</span>
+          <span className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400"><CalendarDays size={15} />{dateLabel}</span>
         </div>
         <div className="grid grid-cols-1 items-stretch gap-3 md:grid-cols-2 lg:grid-cols-4">
           <MovementItem title="Physical cash received" amount={totals.cashReceived} description="Cash collected from customers" positive icon={<ArrowDownLeft size={18} />} />
@@ -195,21 +187,21 @@ function MovementItem({
   icon: ReactNode
 }) {
   const amountTone = amount === 0
-    ? 'text-slate-700'
+    ? 'text-slate-700 dark:text-slate-200'
     : positive
-      ? 'text-emerald-800'
-      : 'text-rose-800'
+      ? 'text-emerald-800 dark:text-emerald-300'
+      : 'text-rose-800 dark:text-rose-300'
 
   return (
-    <article className="flex h-full min-h-36 min-w-0 flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article className="flex h-full min-h-36 min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-4 shadow-sm">
       <div className="flex min-w-0 items-center gap-3">
-        <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${positive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>{icon}</span>
-        <span className="text-sm font-semibold leading-5 text-slate-700">{title}</span>
+        <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${positive ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300'}`}>{icon}</span>
+        <span className="text-sm font-semibold leading-5 text-slate-700 dark:text-slate-200">{title}</span>
       </div>
       <div className={`mt-auto wrap-break-word text-lg font-bold leading-6 tracking-tight ${amountTone}`}>
         {amount > 0 ? '+' : ''}{formatMMK(amount)}
       </div>
-      <span className="text-xs leading-5 text-slate-600">{description}</span>
+      <span className="text-xs leading-5 text-slate-600 dark:text-slate-400">{description}</span>
     </article>
   )
 }

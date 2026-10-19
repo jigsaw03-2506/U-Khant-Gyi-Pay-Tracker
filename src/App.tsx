@@ -45,14 +45,14 @@ function ShopApp({ email, onLogout }: { email: string; onLogout: () => void }) {
       />
 
       {loading && (
-        <div className="mx-auto max-w-[1600px] px-4 pt-3 text-right text-xs text-slate-500 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1600px] px-4 pt-3 text-right text-xs text-slate-500 dark:text-slate-400 sm:px-6 lg:px-8">
           Firebase မှ data ဆွဲယူနေသည်…
         </div>
       )}
 
       {error && (
         <div className="mx-auto mt-3 max-w-[1600px] px-4 sm:px-6 lg:px-8">
-          <p className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-800">
+          <p className="rounded-xl border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 p-3 text-sm text-rose-800 dark:text-rose-300">
             Firebase မှ data မရပါ: {error}. Firestore rules နဲ့ internet ကို စစ်ပါ။
           </p>
         </div>
@@ -83,10 +83,10 @@ function App() {
   const { user, checking, logout } = useAuth()
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <Toaster position="top-right" richColors closeButton />
+    <div className="min-h-screen text-slate-900 dark:text-slate-50">
+      <Toaster position="top-right" richColors closeButton theme="dark" />
       {checking ? (
-        <div className="grid min-h-screen place-items-center text-sm text-slate-500">Loading…</div>
+        <div className="grid min-h-screen place-items-center text-sm text-slate-500 dark:text-slate-400">Loading…</div>
       ) : user ? (
         <ShopApp email={user.email ?? ''} onLogout={() => void logout()} />
       ) : (

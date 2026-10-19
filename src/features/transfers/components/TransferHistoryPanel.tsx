@@ -81,20 +81,20 @@ export function TransferHistoryPanel({
 
   return (
     <>
-      <section className="contain-paint overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div className={`flex items-center gap-3 p-4 sm:px-5 ${compactHeading ? 'border-b border-slate-100' : ''}`}>
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-800">
+      <section className="contain-paint overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 shadow-sm">
+        <div className={`flex items-center gap-3 p-4 sm:px-5 ${compactHeading ? 'border-b border-slate-100 dark:border-white/5' : ''}`}>
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-800 dark:text-blue-300">
             <FileText size={19} />
           </span>
           <div className="min-w-0">
-            <h2 className="text-base font-bold text-slate-900">Transaction history</h2>
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-50">Transaction history</h2>
             {!compactHeading && (
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                 Search, filter, review, and manage saved transfers.
               </p>
             )}
           </div>
-          <span className="ml-auto shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">
+          <span className="ml-auto shrink-0 rounded-full bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
             {transactions.length} {transactions.length === 1 ? 'record' : 'records'}
           </span>
         </div>

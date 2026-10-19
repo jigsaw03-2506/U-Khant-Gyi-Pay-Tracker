@@ -52,24 +52,24 @@ export function TransferPage({
         />
 
         <section className="min-w-0 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-            <div className="mb-5 flex items-center gap-3 border-b border-slate-100 pb-4">
-              <span className="grid size-10 place-items-center rounded-xl bg-[#eaf0ff] text-[#243d83]">
+          <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-4 shadow-sm sm:p-5">
+            <div className="mb-5 flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4">
+              <span className="grid size-10 place-items-center rounded-xl bg-[#eaf0ff] dark:bg-blue-500/15 text-[#243d83] dark:text-blue-300">
                 <ArrowLeftRight size={19} />
               </span>
               <div className="min-w-0">
-                <h1 className="text-lg font-bold tracking-tight text-slate-900">
+                <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-50">
                   Transfer box{" "}
-                  <span className="font-medium text-slate-500">
+                  <span className="font-medium text-slate-500 dark:text-slate-400">
                     · {paymentType.label}
                   </span>
                 </h1>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                   Record a transfer for your selected payment service.
                 </p>
               </div>
               {isAdmin && (
-              <span className="ml-auto hidden rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 sm:inline-flex">
+              <span className="ml-auto hidden rounded-full bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 sm:inline-flex">
                 {paymentTransactions.length}{" "}
                 {paymentTransactions.length === 1 ? "transfer" : "transfers"}
               </span>

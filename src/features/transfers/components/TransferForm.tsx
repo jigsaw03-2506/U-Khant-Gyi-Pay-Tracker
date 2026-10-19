@@ -129,25 +129,25 @@ export function TransferForm({
 
   return (
     <section
-      className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+      className="mt-8 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-5 shadow-sm sm:p-7"
       id="transaction-form"
     >
       <div className="flex items-start gap-3">
-        <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-emerald-100 text-emerald-800">
+        <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300">
           <Plus size={19} />
         </div>
         <div className="min-w-0">
-          <h2 className="text-xl font-bold tracking-tight text-slate-900">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
             {editingTransaction ? "Edit transaction" : "New transaction"}
           </h2>
-          <p className="mt-1 text-sm leading-6 text-slate-600">
+          <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
             Record a Deposit or Withdraw transfer and the actual amounts that
             changed hands.
           </p>
         </div>
         {editingTransaction && (
           <button
-            className="ml-auto inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+            className="ml-auto inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
             type="button"
             onClick={onCancelEdit}
           >
@@ -158,12 +158,12 @@ export function TransferForm({
       </div>
 
       <form className="mt-6" onSubmit={handleSubmit} noValidate>
-        <div className="border-t border-slate-100 pt-6">
+        <div className="border-t border-slate-100 dark:border-white/5 pt-6">
           <div className="mb-4 flex items-center gap-2">
-            <span className="grid size-6 place-items-center rounded-md bg-emerald-100 text-xs font-bold text-emerald-800">
+            <span className="grid size-6 place-items-center rounded-md bg-emerald-100 dark:bg-emerald-500/15 text-xs font-bold text-emerald-800 dark:text-emerald-300">
               01
             </span>
-            <h3 className="text-sm font-semibold text-slate-800">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">
               Transaction information
             </h3>
           </div>
@@ -172,23 +172,23 @@ export function TransferForm({
             <button
               type="button"
               aria-pressed={isDeposit}
-              className={`flex min-h-20 items-center gap-3 rounded-xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${isDeposit ? "border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500" : "border-slate-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/40"}`}
+              className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${isDeposit ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 ring-1 ring-emerald-500" : "border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 hover:border-emerald-300 dark:hover:border-emerald-500/40 hover:bg-emerald-50/40 dark:hover:bg-emerald-500/10"}`}
               onClick={() => changeTransactionType("deposit")}
             >
-              <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-emerald-100 text-emerald-800">
+              <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300">
                 <ArrowDownToLine size={18} />
               </span>
               <span className="flex min-w-0 flex-col gap-1">
-                <strong className="text-sm font-semibold text-slate-800">
+                <strong className="text-sm font-semibold text-slate-800 dark:text-slate-100">
                   Deposit{" "}
-                  <span className="font-normal text-slate-600">(ငွေထုတ်)</span>
+                  <span className="font-normal text-slate-600 dark:text-slate-400">(ငွေထုတ်)</span>
                 </strong>
-                <small className="text-xs leading-5 text-slate-600">
+                <small className="text-xs leading-5 text-slate-600 dark:text-slate-400">
                   Customer sends money to your account
                 </small>
               </span>
               <span
-                className={`ml-auto grid size-5 shrink-0 place-items-center rounded-full border ${isDeposit ? "border-emerald-700 bg-emerald-700 text-white" : "border-slate-300 text-transparent"}`}
+                className={`ml-auto grid size-5 shrink-0 place-items-center rounded-full border ${isDeposit ? "border-emerald-700 bg-emerald-700 text-white" : "border-slate-300 dark:border-white/15 text-transparent"}`}
               >
                 {isDeposit && <Check size={12} />}
               </span>
@@ -196,23 +196,23 @@ export function TransferForm({
             <button
               type="button"
               aria-pressed={!isDeposit}
-              className={`flex min-h-20 items-center gap-3 rounded-xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 ${!isDeposit ? "border-sky-500 bg-sky-50 ring-1 ring-sky-500" : "border-slate-200 bg-white hover:border-sky-300 hover:bg-sky-50/40"}`}
+              className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 ${!isDeposit ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 ring-1 ring-sky-500" : "border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 hover:border-sky-300 dark:hover:border-sky-500/40 hover:bg-sky-50/40 dark:hover:bg-sky-500/10"}`}
               onClick={() => changeTransactionType("withdraw")}
             >
-              <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-sky-100 text-sky-800">
+              <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-sky-100 dark:bg-sky-500/15 text-sky-800 dark:text-sky-300">
                 <Send size={17} />
               </span>
               <span className="flex min-w-0 flex-col gap-1">
-                <strong className="text-sm font-semibold text-slate-800">
+                <strong className="text-sm font-semibold text-slate-800 dark:text-slate-100">
                   Withdraw{" "}
-                  <span className="font-normal text-slate-600">(ငွေလွှဲ)</span>
+                  <span className="font-normal text-slate-600 dark:text-slate-400">(ငွေလွှဲ)</span>
                 </strong>
-                <small className="text-xs leading-5 text-slate-600">
+                <small className="text-xs leading-5 text-slate-600 dark:text-slate-400">
                   Customer gives cash, you send money
                 </small>
               </span>
               <span
-                className={`ml-auto grid size-5 shrink-0 place-items-center rounded-full border ${!isDeposit ? "border-sky-700 bg-sky-700 text-white" : "border-slate-300 text-transparent"}`}
+                className={`ml-auto grid size-5 shrink-0 place-items-center rounded-full border ${!isDeposit ? "border-sky-700 bg-sky-700 text-white" : "border-slate-300 dark:border-white/15 text-transparent"}`}
               >
                 {!isDeposit && <Check size={12} />}
               </span>
@@ -220,7 +220,7 @@ export function TransferForm({
           </div>
 
           <div
-            className={`mt-3 flex items-start gap-2 rounded-lg px-3 py-3 text-sm leading-6 ${isDeposit ? "bg-emerald-50 text-emerald-900" : "bg-sky-50 text-sky-900"}`}
+            className={`mt-3 flex items-start gap-2 rounded-lg px-3 py-3 text-sm leading-6 ${isDeposit ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-900 dark:text-emerald-200" : "bg-sky-50 dark:bg-sky-500/10 text-sky-900 dark:text-sky-200"}`}
           >
             <CircleHelp size={17} className="mt-0.5 shrink-0" />
             <span>
@@ -237,7 +237,7 @@ export function TransferForm({
               error={errors.provider}
             >
               <select
-                className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition hover:border-slate-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900/70 px-3 text-sm text-slate-800 dark:text-slate-100 outline-none transition hover:border-slate-400 dark:hover:border-white/25 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100 dark:focus:ring-emerald-500/20"
                 value={values.provider}
                 onChange={(event) =>
                   updateField("provider", event.target.value)
@@ -255,7 +255,7 @@ export function TransferForm({
               error={errors.dateTime}
             >
               <input
-                className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition hover:border-slate-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900/70 px-3 text-sm text-slate-800 dark:text-slate-100 outline-none transition hover:border-slate-400 dark:hover:border-white/25 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100 dark:focus:ring-emerald-500/20"
                 type="datetime-local"
                 value={values.dateTime}
                 onChange={(event) =>
@@ -269,7 +269,7 @@ export function TransferForm({
               error={errors.customerName}
             >
               <input
-                className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900/70 px-3 text-sm text-slate-800 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:border-slate-400 dark:hover:border-white/25 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100 dark:focus:ring-emerald-500/20"
                 value={values.customerName}
                 placeholder="e.g. Aye Aye"
                 onChange={(event) =>
@@ -279,7 +279,7 @@ export function TransferForm({
             </FormField>
             <FormField label="Phone number" hint="Optional">
               <input
-                className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900/70 px-3 text-sm text-slate-800 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:border-slate-400 dark:hover:border-white/25 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100 dark:focus:ring-emerald-500/20"
                 type="tel"
                 value={values.phoneNumber}
                 placeholder="09 123 456 789"
@@ -290,7 +290,7 @@ export function TransferForm({
             </FormField>
             <FormField label="Customer account name / number" hint="Optional">
               <input
-                className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900/70 px-3 text-sm text-slate-800 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:border-slate-400 dark:hover:border-white/25 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100 dark:focus:ring-emerald-500/20"
                 value={values.accountInformation}
                 placeholder="Account name or number"
                 onChange={(event) =>
@@ -300,11 +300,11 @@ export function TransferForm({
             </FormField>
           </div>
 
-          <div className="mt-7 flex flex-col gap-1 border-t border-slate-100 pt-5 sm:flex-row sm:items-baseline sm:justify-between">
-            <h3 className="text-sm font-semibold text-slate-800">
+          <div className="mt-7 flex flex-col gap-1 border-t border-slate-100 dark:border-white/5 pt-5 sm:flex-row sm:items-baseline sm:justify-between">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">
               Transfer amounts
             </h3>
-            {/* <p className="text-xs leading-5 text-slate-600">
+            {/* <p className="text-xs leading-5 text-slate-600 dark:text-slate-400">
               Enter each amount independently. {serviceFeeMode === 'auto' ? 'The service fee is calculated automatically and can be edited.' : 'The service fee is manually set and will recalculate if the amount or type changes.'} Fees are not added to or deducted from cash.
             </p> */}
           </div>
@@ -357,18 +357,18 @@ export function TransferForm({
             )}
           </div>
 
-          <div className="mt-7 flex flex-col gap-1 border-t border-slate-100 pt-5 sm:flex-row sm:items-baseline sm:justify-between">
-            <h3 className="text-sm font-semibold text-slate-800">
+          <div className="mt-7 flex flex-col gap-1 border-t border-slate-100 dark:border-white/5 pt-5 sm:flex-row sm:items-baseline sm:justify-between">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">
               Additional details
             </h3>
-            <p className="text-xs leading-5 text-slate-600">
+            <p className="text-xs leading-5 text-slate-600 dark:text-slate-400">
               Reference and notes are optional.
             </p>
           </div>
           <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
             <FormField label="Reference number" hint="Optional">
               <input
-                className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900/70 px-3 text-sm text-slate-800 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:border-slate-400 dark:hover:border-white/25 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100 dark:focus:ring-emerald-500/20"
                 value={values.referenceNumber}
                 placeholder="Transaction reference"
                 onChange={(event) =>
@@ -378,7 +378,7 @@ export function TransferForm({
             </FormField>
             <FormField label="Notes" hint="Optional">
               <input
-                className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900/70 px-3 text-sm text-slate-800 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:border-slate-400 dark:hover:border-white/25 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100 dark:focus:ring-emerald-500/20"
                 value={values.notes}
                 placeholder="Add a note for this transaction"
                 onChange={(event) => updateField("notes", event.target.value)}
@@ -387,13 +387,13 @@ export function TransferForm({
           </div>
         </div>
 
-        <div className="flex min-h-20 flex-wrap items-center justify-between gap-3 border-t border-slate-100">
-          <p className="flex items-center gap-2 text-xs text-slate-600">
+        <div className="flex min-h-20 flex-wrap items-center justify-between gap-3 border-t border-slate-100 dark:border-white/5">
+          <p className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
             <span className="size-2 rounded-full bg-emerald-500" /> Saved
             privately on this device
           </p>
           <button
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-emerald-800 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-emerald-800 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
             type="submit"
             disabled={saving}
           >

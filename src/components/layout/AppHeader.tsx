@@ -25,6 +25,7 @@ function getClockLabel() {
       hour12: true,
     }).format(now),
     date: new Intl.DateTimeFormat("en", {
+      weekday: "short",
       day: "2-digit",
       month: "short",
     }).format(now),
@@ -54,23 +55,23 @@ export function AppHeader({
     : navItems.filter((item) => item.id !== "dashboard");
 
   return (
-    <header className="bg-[#14234a] text-white shadow-md">
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/80 text-slate-900 backdrop-blur-xl dark:border-white/5 dark:bg-[#070b16]/80 dark:text-slate-50">
       <div className="mx-auto grid max-w-[1600px] grid-cols-2 items-center gap-x-4 gap-y-3 px-4 py-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-blue-700 text-white shadow-inner">
-            <WalletCards size={23} />
+          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-300 to-amber-500 text-amber-950 shadow-lg shadow-amber-500/20">
+            <WalletCards size={22} />
           </span>
           <div className="min-w-0">
-            <div className="truncate text-base font-bold tracking-tight sm:text-lg">
+            <div className="truncate text-base font-bold tracking-tight">
               U Khant Gyi
             </div>
-            <div className="mt-0.5 text-xs font-medium text-blue-200">
+            <div className="mt-0.5 text-xs font-medium text-slate-500 dark:text-slate-400">
               ငွေလွှဲ / ငွေထုတ်
             </div>
           </div>
         </div>
 
-        <div className="col-span-2 row-start-2 flex w-full justify-center gap-2 sm:col-span-1 sm:col-start-2 sm:row-start-auto sm:w-auto">
+        <nav className="col-span-2 row-start-2 flex w-full justify-center gap-1 rounded-2xl border border-slate-200 bg-slate-100/80 p-1 sm:col-span-1 sm:col-start-2 sm:row-start-auto sm:w-auto dark:border-white/10 dark:bg-white/5">
           {visibleNavItems.map(({ id, label, icon: Icon }) => {
             const active = activeScreen === id;
             return (
@@ -79,10 +80,10 @@ export function AppHeader({
                 type="button"
                 aria-current={active ? "page" : undefined}
                 onClick={() => onNavigate(id)}
-                className={`flex min-h-11 min-w-40 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition sm:flex-none ${
+                className={`flex min-h-10 flex-1 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 sm:flex-none ${
                   active
-                    ? "bg-amber-500 text-[#18254a] shadow-sm hover:bg-amber-400"
-                    : "bg-blue-900/70 text-blue-100 hover:bg-blue-800"
+                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                    : "text-slate-600 hover:bg-white hover:text-slate-900 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
                 }`}
               >
                 <Icon size={17} />
@@ -90,16 +91,16 @@ export function AppHeader({
               </button>
             );
           })}
-        </div>
+        </nav>
 
         <div className="col-start-2 row-start-1 ml-auto flex items-center gap-3 sm:col-start-3 sm:row-start-auto">
-          <AccountMenu email={email} isAdmin={isAdmin} onLogout={onLogout} />
-          <div className="text-right leading-tight">
-            <div className="text-sm font-semibold tabular-nums">
+          <div className="hidden text-right leading-tight sm:block">
+            <div className="text-xs font-semibold">{clock.date}</div>
+            <div className="mt-1 text-xs tabular-nums text-slate-500 dark:text-slate-400">
               {clock.time}
             </div>
-            <div className="mt-1 text-[11px] text-blue-200">{clock.date}</div>
           </div>
+          <AccountMenu email={email} isAdmin={isAdmin} onLogout={onLogout} />
         </div>
       </div>
     </header>

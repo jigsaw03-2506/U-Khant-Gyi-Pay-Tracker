@@ -16,14 +16,14 @@ export function FormField({
   children,
 }: FormFieldProps) {
   return (
-    <label className="flex min-w-0 flex-col gap-2 text-sm font-medium leading-5 text-slate-700">
+    <label className="flex min-w-0 flex-col gap-2 text-sm font-medium leading-5 text-slate-700 dark:text-slate-200">
       <span>
         {label}
-        {required && <span className="text-rose-700"> *</span>}
-        {hint && <span className="ml-2 text-xs font-normal text-slate-500">{hint}</span>}
+        {required && <span className="text-rose-700 dark:text-rose-300"> *</span>}
+        {hint && <span className="ml-2 text-xs font-normal text-slate-500 dark:text-slate-400">{hint}</span>}
       </span>
       {children}
-      {error && <span className="text-xs font-medium text-rose-700">{error}</span>}
+      {error && <span className="text-xs font-medium text-rose-700 dark:text-rose-300">{error}</span>}
     </label>
   )
 }

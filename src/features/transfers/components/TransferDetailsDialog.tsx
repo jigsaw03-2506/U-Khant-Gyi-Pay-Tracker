@@ -19,31 +19,31 @@ export function TransferDetailsDialog({
   return (
     <Dialog.Root open={transaction !== null} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-[51] max-h-[90vh] w-[min(470px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl sm:p-6">
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-[51] max-h-[90vh] w-[min(470px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/70 p-5 shadow-2xl sm:p-6">
           {transaction && (
             <>
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-slate-500">TRANSACTION DETAILS</div>
-                  <Dialog.Title className="mt-2 text-xl font-bold tracking-tight text-slate-900">{transaction.customerName}</Dialog.Title>
+                  <div className="text-xs font-semibold tracking-widest text-slate-500 dark:text-slate-400">TRANSACTION DETAILS</div>
+                  <Dialog.Title className="mt-2 text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">{transaction.customerName}</Dialog.Title>
                 </div>
                 <Dialog.Close asChild>
-                  <button className="grid size-10 place-items-center rounded-lg text-slate-500 hover:bg-slate-100" aria-label="Close details">
+                  <button className="grid size-10 place-items-center rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10" aria-label="Close details">
                     <X size={18} />
                   </button>
                 </Dialog.Close>
               </div>
               <div className="mt-5 flex items-center justify-between">
-                <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${isDeposit ? 'bg-emerald-100 text-emerald-900' : 'bg-sky-100 text-sky-900'}`}>
+                <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${isDeposit ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-900 dark:text-emerald-200' : 'bg-sky-100 dark:bg-sky-500/15 text-sky-900 dark:text-sky-200'}`}>
                   <span className={`size-1.5 rounded-full ${isDeposit ? 'bg-emerald-700' : 'bg-sky-700'}`} />{isDeposit ? 'Deposit' : 'Withdraw'}
                 </span>
-                <span className="text-xs text-slate-500">ID · {transaction.id.slice(0, 8)}</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">ID · {transaction.id.slice(0, 8)}</span>
               </div>
-              <div className="my-4 flex flex-col gap-2 rounded-xl border border-emerald-100 bg-emerald-50 p-4">
-                <span className="text-xs text-slate-600">Transaction amount</span>
-                <strong className="text-2xl font-bold tracking-tight text-emerald-900">{formatMMK(transaction.amount)}</strong>
-                <small className="text-xs text-slate-600">
+              <div className="my-4 flex flex-col gap-2 rounded-xl border border-emerald-100 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10 p-4">
+                <span className="text-xs text-slate-600 dark:text-slate-400">Transaction amount</span>
+                <strong className="text-2xl font-bold tracking-tight text-emerald-900 dark:text-emerald-200">{formatMMK(transaction.amount)}</strong>
+                <small className="text-xs text-slate-600 dark:text-slate-400">
                   {transaction.provider} ·{' '}
                   {new Intl.DateTimeFormat('en', {
                     dateStyle: 'medium',
@@ -72,8 +72,8 @@ export function TransferDetailsDialog({
                   <Detail label="Notes" value={transaction.notes || '—'} />
                 </div>
               </div>
-              <div className="mt-4 flex justify-end gap-2 border-t border-slate-100 pt-4">
-                <button className="inline-flex min-h-10 items-center justify-center rounded-lg border border-slate-300 px-4 text-sm font-medium text-slate-700 hover:bg-slate-50" onClick={onClose}>Close</button>
+              <div className="mt-4 flex justify-end gap-2 border-t border-slate-100 dark:border-white/5 pt-4">
+                <button className="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-300 dark:border-white/15 px-4 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5" onClick={onClose}>Close</button>
                 <button className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-emerald-800 px-4 text-sm font-semibold text-white hover:bg-emerald-900" onClick={() => onEdit(transaction)}>
                   <Pencil size={15} />Edit transaction
                 </button>
@@ -89,8 +89,8 @@ export function TransferDetailsDialog({
 function Detail({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex min-w-0 flex-col gap-1.5">
-      <span className="text-xs text-slate-500">{label}</span>
-      <strong className="break-words text-sm font-medium text-slate-800">{value}</strong>
+      <span className="text-xs text-slate-500 dark:text-slate-400">{label}</span>
+      <strong className="break-words text-sm font-medium text-slate-800 dark:text-slate-100">{value}</strong>
     </div>
   )
 }

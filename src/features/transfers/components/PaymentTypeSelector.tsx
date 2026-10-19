@@ -11,7 +11,7 @@ export function PaymentTypeSelector({
 }: PaymentTypeSelectorProps) {
   return (
     <aside aria-label="Payment types" className="min-w-0">
-      <h2 className="mb-3 px-1 text-xs font-bold uppercase tracking-wider text-slate-500">
+      <h2 className="mb-3 px-1 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
         Payment type <span className="normal-case tracking-normal">ရွေးချယ်ပါ</span>
       </h2>
       <div className="flex gap-3 overflow-x-auto pb-2 xl:flex-col xl:overflow-visible xl:pb-0">
@@ -28,7 +28,7 @@ export function PaymentTypeSelector({
               className={`flex min-h-[76px] min-w-44 flex-1 items-center gap-3 rounded-2xl border p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 xl:min-w-0 xl:flex-none ${
                 active
                   ? paymentType.activeClass
-                  : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300'
+                  : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:border-white/20'
               }`}
             >
               <span className={`grid size-11 shrink-0 place-items-center rounded-xl ${active ? paymentType.iconClass : paymentType.idleIconClass}`}>
@@ -36,7 +36,7 @@ export function PaymentTypeSelector({
               </span>
               <span className="min-w-0">
                 <span className="block text-sm font-bold">{paymentType.label}</span>
-                <span className="mt-1 block text-xs text-slate-500">{paymentType.description}</span>
+                <span className="mt-1 block text-xs text-slate-500 dark:text-slate-400">{paymentType.description}</span>
               </span>
             </button>
           )
