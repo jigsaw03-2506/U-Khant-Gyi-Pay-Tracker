@@ -18,25 +18,78 @@ import {
 } from '../../transfers/utils/transfer-utils'
 import type { Transaction } from '../../transfers/types/transfer.types'
 
-const TODAY = getLocalDateKey(new Date().toISOString())
+export interface SummaryRange {
+  from: string
+  to: string
+}
+
+type RangePreset = 'today' | 'thisMonth' | 'lastMonth' | 'custom'
+
+const PRESET_LABELS: Record<Exclude<RangePreset, 'custom'>, string> = {
+  today: 'Today',
+  thisMonth: 'This month',
+  lastMonth: 'Last month',
+}
+
+function toDateKey(date: Date): string {
+  return getLocalDateKey(date.toISOString())
+}
+
+function getPresetRange(preset: Exclude<RangePreset, 'custom'>): SummaryRange {
+  const now = new Date()
+  if (preset === 'today') {
+    const today = toDateKey(now)
+    return { from: today, to: today }
+  }
+  const monthOffset = preset === 'thisMonth' ? 0 : -1
+  return {
+    from: toDateKey(new Date(now.getFullYear(), now.getMonth() + monthOffset, 1)),
+    to: toDateKey(new Date(now.getFullYear(), now.getMonth() + monthOffset + 1, 0)),
+  }
+}
+
+function getActivePreset(range: SummaryRange): RangePreset {
+  const presets = Object.keys(PRESET_LABELS) as Exclude<RangePreset, 'custom'>[]
+  return presets.find((preset) => {
+    const presetRange = getPresetRange(preset)
+    return presetRange.from === range.from && presetRange.to === range.to
+  }) ?? 'custom'
+}
+
+function formatDateKey(dateKey: string): string {
+  const date = new Date(`${dateKey}T00:00:00`)
+  return Number.isNaN(date.getTime())
+    ? dateKey
+    : new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(date)
+}
 
 interface TransferSummaryProps {
   transactions: Transaction[]
-  summaryDate: string
-  onSummaryDateChange: (date: string) => void
+  summaryRange: SummaryRange
+  onSummaryRangeChange: (range: SummaryRange) => void
 }
 
 export function TransferSummary({
   transactions,
-  summaryDate,
-  onSummaryDateChange,
+  summaryRange,
+  onSummaryRangeChange,
 }: TransferSummaryProps) {
-  const totals = calculateTransferSummary(transactions, summaryDate)
-  const dateLabel = Number.isNaN(new Date(`${summaryDate}T00:00:00`).getTime())
-    ? summaryDate
-    : new Intl.DateTimeFormat('en', { dateStyle: 'medium' })
-      .format(new Date(`${summaryDate}T00:00:00`))
-  const summaryContext = summaryDate === TODAY ? 'Today' : 'Selected day'
+  const totals = calculateTransferSummary(transactions, summaryRange.from, summaryRange.to)
+  const activePreset = getActivePreset(summaryRange)
+  const dateLabel = summaryRange.from === summaryRange.to
+    ? formatDateKey(summaryRange.from)
+    : `${formatDateKey(summaryRange.from)} – ${formatDateKey(summaryRange.to)}`
+  const summaryContext = activePreset === 'custom' ? 'Selected range' : PRESET_LABELS[activePreset]
+
+  function changeFrom(from: string) {
+    if (!from) return
+    onSummaryRangeChange({ from, to: from > summaryRange.to ? from : summaryRange.to })
+  }
+
+  function changeTo(to: string) {
+    if (!to) return
+    onSummaryRangeChange({ from: to < summaryRange.from ? to : summaryRange.from, to })
+  }
 
   return (
     <>
@@ -52,20 +105,42 @@ export function TransferSummary({
             Here’s how your money transfer business is doing.
           </p>
         </div>
-        <label className="relative flex h-11 w-fit max-w-full items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-slate-600 shadow-sm focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100">
-          <CalendarDays size={17} className="shrink-0 text-emerald-800" />
-          <span className="shrink-0 text-xs text-slate-600">Summary date</span>
-          <input
-            type="date"
-            value={summaryDate}
-            onChange={(event) => onSummaryDateChange(event.target.value)}
-            aria-label="Summary date"
-            className="min-w-0 border-0 bg-transparent text-xs text-slate-800 outline-none"
-          />
-        </label>
+        <div className="flex min-w-0 flex-col gap-2 sm:items-end">
+          <div className="flex w-fit max-w-full flex-wrap gap-1 rounded-lg border border-slate-200 bg-white p-1 shadow-sm" role="group" aria-label="Summary period">
+            {(Object.keys(PRESET_LABELS) as Exclude<RangePreset, 'custom'>[]).map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                aria-pressed={activePreset === preset}
+                onClick={() => onSummaryRangeChange(getPresetRange(preset))}
+                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${activePreset === preset ? 'bg-emerald-700 text-white' : 'text-slate-600 hover:bg-emerald-50'}`}
+              >
+                {PRESET_LABELS[preset]}
+              </button>
+            ))}
+          </div>
+          <div className={`flex h-11 w-fit max-w-full items-center gap-2 rounded-lg border bg-white px-3 text-slate-600 shadow-sm focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 ${activePreset === 'custom' ? 'border-emerald-500' : 'border-slate-200'}`}>
+            <CalendarDays size={17} className="shrink-0 text-emerald-800" />
+            <input
+              type="date"
+              value={summaryRange.from}
+              onChange={(event) => changeFrom(event.target.value)}
+              aria-label="Summary from date"
+              className="min-w-0 border-0 bg-transparent text-xs text-slate-800 outline-none"
+            />
+            <span className="shrink-0 text-xs text-slate-500">to</span>
+            <input
+              type="date"
+              value={summaryRange.to}
+              onChange={(event) => changeTo(event.target.value)}
+              aria-label="Summary to date"
+              className="min-w-0 border-0 bg-transparent text-xs text-slate-800 outline-none"
+            />
+          </div>
+        </div>
       </section>
 
-      <section className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4" aria-label="Daily transaction summary">
+      <section className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4" aria-label="Transaction summary">
         <SummaryCard title="Deposit amount" amount={totals.depositAmount} note="Electronic money received" icon={<ArrowDownToLine size={19} />} tone="green" context={summaryContext} />
         <SummaryCard title="Withdraw amount" amount={totals.withdrawAmount} note="Electronic money sent" icon={<Send size={18} />} tone="blue" context={summaryContext} />
         <SummaryCard title="Service fees earned" amount={totals.serviceFees} note="Recorded fees · separate from movements" icon={<Coins size={19} />} tone="amber" context={summaryContext} />
@@ -76,7 +151,7 @@ export function TransferSummary({
             <span className="grid size-10 place-items-center rounded-lg bg-violet-100 text-violet-800"><ArrowLeftRight size={18} /></span>
             <span className="text-xs font-medium text-slate-500">{summaryContext}</span>
           </div>
-          <div className="mt-4 text-sm font-medium text-slate-600">Transactions today</div>
+          <div className="mt-4 text-sm font-medium text-slate-600">Transactions</div>
           <div className="mt-1 text-2xl font-bold tracking-tight text-slate-900">{totals.transactionCount}<small className="ml-1 text-sm font-medium text-slate-600">txns</small></div>
           <div className="mt-auto pt-2 text-xs leading-5 text-slate-600">Total transactions recorded</div>
         </article>
@@ -87,7 +162,7 @@ export function TransferSummary({
           <div className="flex min-w-0 items-center gap-3">
             <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-emerald-100 bg-emerald-50 text-emerald-800"><ArrowLeftRight size={18} /></span>
             <div>
-              <h2 id="movement-title" className="text-lg font-bold tracking-tight text-slate-900">Daily money movements</h2>
+              <h2 id="movement-title" className="text-lg font-bold tracking-tight text-slate-900">Money movements</h2>
               <p className="mt-1 text-xs leading-5 text-slate-600">Calculated from saved records · not verified account balances</p>
             </div>
           </div>

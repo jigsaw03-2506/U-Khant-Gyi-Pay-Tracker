@@ -16,17 +16,18 @@ export function DashboardPage({
   onEdit,
   onDelete,
 }: DashboardPageProps) {
-  const [summaryDate, setSummaryDate] = useState(() =>
-    getLocalDateKey(new Date().toISOString()),
-  );
+  const [summaryRange, setSummaryRange] = useState(() => {
+    const today = getLocalDateKey(new Date().toISOString());
+    return { from: today, to: today };
+  });
 
   return (
     <>
       <main className="mx-auto w-full max-w-[1600px] space-y-8 px-4 py-7 sm:px-6 lg:px-8">
         <TransferSummary
           transactions={transactions}
-          summaryDate={summaryDate}
-          onSummaryDateChange={setSummaryDate}
+          summaryRange={summaryRange}
+          onSummaryRangeChange={setSummaryRange}
         />
         <TransferHistoryPanel
           transactions={transactions}

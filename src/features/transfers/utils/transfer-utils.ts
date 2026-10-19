@@ -134,11 +134,13 @@ function createFallbackId(): string {
 
 export function calculateTransferSummary(
   transactions: Transaction[],
-  summaryDate: string,
+  dateFrom: string,
+  dateTo: string,
 ): TransferSummaryTotals {
-  const dailyTransactions = transactions.filter(
-    (transaction) => getLocalDateKey(transaction.dateTime) === summaryDate,
-  )
+  const dailyTransactions = transactions.filter((transaction) => {
+    const transactionDate = getLocalDateKey(transaction.dateTime)
+    return transactionDate >= dateFrom && transactionDate <= dateTo
+  })
   const deposits = dailyTransactions.filter((item) => item.transactionType === 'deposit')
   const withdrawals = dailyTransactions.filter((item) => item.transactionType === 'withdraw')
   const depositAmount = deposits.reduce((total, item) => total + item.amount, 0)
